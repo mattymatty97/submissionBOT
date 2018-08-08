@@ -51,6 +51,10 @@ public class MyListener extends ListenerAdapter {
         if(!(event.getChannelType()==ChannelType.PRIVATE))
             return; //ignore the message
 
+        //if we're answering to ourselves
+        if(event.getAuthor().isBot())
+            return; //do not lol
+
         //if it has no attachments
         if(event.getMessage().getAttachments().size()==0) {
             event.getPrivateChannel().sendMessage("Please submit something ( attach the file to the message )").queue();
