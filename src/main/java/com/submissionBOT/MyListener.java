@@ -94,6 +94,11 @@ public class MyListener extends ListenerAdapter {
         }catch (IOException e) {
             e.printStackTrace();
         }
+
+        //for beeing polite lets say a thanks to who submitted the file :smirk:
+
+        event.getPrivateChannel().sendMessage("Thanks for your submission").queue();
+
     }
 
 
@@ -106,11 +111,20 @@ public class MyListener extends ListenerAdapter {
         }
 
         public synchronized long inc(){
-            return ctn++;
+            return ++ctn;
         }
 
         Counter(long init){
             ctn=init;
+        }
+    }
+
+    //close the file for compatibility reasons
+    public void shutdown(){
+        try {
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
