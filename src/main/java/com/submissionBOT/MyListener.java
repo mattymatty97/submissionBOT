@@ -20,10 +20,10 @@ public class MyListener extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         //once the bot starts this part will be executed ( only once )
 
-        //choose which file we'll use to log submissions
+        //choose wich file we'll use to log submissions
         File log = new File("./log.txt");
 
-        //choose which folder we'll use to download submissions
+        //choose wich folder we'll use to download submissions
         folder = new File("./files/");
 
         //if missing create the folder
