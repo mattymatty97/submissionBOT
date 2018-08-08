@@ -70,7 +70,7 @@ public class MyListener extends ListenerAdapter {
             filename.replace(0,filename.lastIndexOf("."),Long.toString(ctn.inc()));
 
             //select where to save the file
-            File to_download = new File(folder.getPath()+filename.toString());
+            File to_download = new File(folder.getPath()+"/"+filename.toString());
 
             //download the file
             a.download(to_download);
