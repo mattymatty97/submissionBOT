@@ -9,6 +9,9 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MyListener extends ListenerAdapter {
 
@@ -41,12 +44,16 @@ public class MyListener extends ListenerAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //log the ready event to console
+        System.out.println("BOT Ready");
+        System.out.println();
     }
 
 
     //this will be executed every time a message is sent ( as a DM or in a server )
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        User user = event.getAuthor();
         //if this is not a DM
         if(!(event.getChannelType()==ChannelType.PRIVATE))
             return; //ignore the message
@@ -57,10 +64,15 @@ public class MyListener extends ListenerAdapter {
 
         //if it has no attachments
         if(event.getMessage().getAttachments().size()==0) {
+            //advise the user
             event.getPrivateChannel().sendMessage("Please submit something ( attach the file to the message )").queue();
-            return; //advise and ignore
+            //log the event to console
+            logToConsole("User "+
+                    user.getName() + "#" + user.getDiscriminator() + " (" + user.getId() + ")" +
+                    " sent a message without attachments");
+            return; // and ignore the event
         }
-        User user = event.getAuthor();
+
         //if it has attachements
         event.getMessage().getAttachments().forEach(a -> { //for each attachment
             //save the file name
@@ -75,12 +87,18 @@ public class MyListener extends ListenerAdapter {
             //download the file
             a.download(to_download);
 
+            StringBuilder log = new StringBuilder();
+
             try {
-                //log the download in format
-                fw.append("User ").append(user.getName()).append("#").append(user.getDiscriminator());
-                fw.append(" (").append(user.getId()).append(")");
-                fw.append(" submitted ").append(filename.toString());
+                //create the log string for the download in format
+                log.append("User ").append(user.getName()).append("#").append(user.getDiscriminator());
+                log.append(" (").append(user.getId()).append(")");
+                log.append(" submitted ").append(filename.toString());
+                //write the log string to file
+                fw.append(log.toString());
                 fw.append("\r\n");
+                //write the log string to console
+                logToConsole(log.toString());
                 //EXAMPLE:
                 // User: mattymatty#9621 (402567749479432195) submitted 1.jpg
             }catch (IOException e) {
@@ -101,6 +119,19 @@ public class MyListener extends ListenerAdapter {
 
     }
 
+    private static final DateFormat stf = new SimpleDateFormat("HH:mm:ss");
+    //funtion to log messages to console
+    private void logToConsole(String msg){
+        StringBuilder sb = new StringBuilder();
+
+        //get current time in format
+        String time = stf.format(new Date());
+        //create the log string
+        sb.append("[").append(time).append("]\t");
+        sb.append(msg);
+        //write down the log
+        System.out.println(sb.toString());
+    }
 
 
     //ignore this part
@@ -127,5 +158,7 @@ public class MyListener extends ListenerAdapter {
             e.printStackTrace();
         }
     }
+
+
 
 }
