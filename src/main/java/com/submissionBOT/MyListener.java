@@ -18,6 +18,7 @@ public class MyListener extends ListenerAdapter {
     Counter ctn;
     FileWriter fw;
     File folder;
+    boolean ready=false;
 
     @Override
     public void onReady(ReadyEvent event) {
@@ -47,12 +48,16 @@ public class MyListener extends ListenerAdapter {
         //log the ready event to console
         System.out.println("BOT Ready");
         System.out.println();
+        ready=true;
     }
 
 
     //this will be executed every time a message is sent ( as a DM or in a server )
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        //if the bot is not ready exit immeditly
+        if(!ready) 
+             return;
         User user = event.getAuthor();
         //if this is not a DM
         if(!(event.getChannelType()==ChannelType.PRIVATE))
@@ -95,8 +100,10 @@ public class MyListener extends ListenerAdapter {
                 log.append(" (").append(user.getId()).append(")");
                 log.append(" submitted ").append(filename.toString());
                 //write the log string to file
-                fw.append(log.toString());
-                fw.append("\r\n");
+                synchronized(fw){
+                    fw.append(log.toString());
+                    fw.append("\r\n");
+               } 
                 //write the log string to console
                 logToConsole(log.toString());
                 //EXAMPLE:
