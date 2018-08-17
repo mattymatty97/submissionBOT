@@ -17,7 +17,7 @@ public class BOT
 
         ListenerAdapter ls = new MyListener();
         api.addEventListener(ls);
-        api.getPresence().setGame(Game.playing("v0.2 submission prj"));
+        api.getPresence().setGame(Game.watching("for submissions  ||  v 0.3") );
 
         //what the bot should do before shutting down
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
