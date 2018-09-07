@@ -34,3 +34,17 @@ put in the folder where you want to run it
     
  all submitted files will be saved into "files" folder
  while the submission log will be saved into "log.txt" file
+ 
+ --------------------------------------------------------------------------------------
+ 
+ linux example:
+
+ #!/bin/bash
+ export BOT_TOKEN=adrrf.aaewre.32445234sdfweDWEDgewCCEW
+ java -jar ./submissionBot-1.0-all.jar
+ 
+ 
+ windows example:
+
+ SET BOT_TOKEN=adrrf.aaewre.32445234sdfweDWEDgewCCEW
+ java -jar ./submissionBot-1.0-all.jar
